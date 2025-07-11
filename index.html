@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Para Ti 🌸💖</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ffe0ec, #ffc3d8);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'Poppins', sans-serif;
+      position: relative;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+      z-index: 10;
+    }
+
+    .heart-container {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      z-index: 2;
+    }
+
+    .heart-shape {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: #ff69b4;
+      transform: rotate(45deg) scale(0);
+      opacity: 0;
+      transition: transform 0.8s ease, opacity 0.8s ease;
+    }
+
+    .heart-shape:before,
+    .heart-shape:after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .heart-shape:before {
+      top: -15px;
+      left: 0;
+    }
+
+    .heart-shape:after {
+      left: -15px;
+      top: 0;
+    }
+
+    .card {
+      width: 100%;
+      height: 300px;
+      perspective: 1200px;
+      cursor: pointer;
+      z-index: 10;
+      position: relative;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 1s ease-in-out;
+    }
+
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      box-sizing: border-box;
+    }
+
+    .card-front {
+      background: #fff;
+      text-align: center;
+    }
+
+    .card-front h2 {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 34px;
+      color: #ff69b4;
+      margin: 0;
+    }
+
+    .card-front p {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #555;
+    }
+
+    .card-back {
+      background: linear-gradient(135deg, #ffb6c1, #ffe4e1);
+      transform: rotateY(180deg);
+      color: #fff;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .card-back h3 {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 26px;
+      margin: 0 0 10px 0;
+    }
+
+    .card-back p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .floating {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff69b4;
+      transform: rotate(45deg);
+      animation: float 10s linear forwards;
+      z-index: 1;
+    }
+
+    .floating:before,
+    .floating:after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .floating:before {
+      top: -10px;
+      left: 0;
+    }
+
+    .floating:after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-600px) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    .side-image {
+      position: absolute;
+      top: 50%;
+      width: 250px;
+      border-radius: 20px;
+      transform: translateY(-50%);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      object-fit: cover;
+      z-index: 5;
+    }
+
+    .side-image.left {
+      left: 30px;
+    }
+
+    .side-image.right {
+      right: 30px;
+    }
+
+    .counter {
+      margin-top: 20px;
+      text-align: center;
+      background: rgba(255, 182, 193, 0.8);
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-family: 'Poppins', sans-serif;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .counter h4 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      color: #b30059;
+    }
+
+    #timer {
+      font-size: 18px;
+      color: #b30059;
+      font-weight: bold;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="heart-container" id="heartContainer"></div>
+
+  <!-- Fotos laterales -->
+  <img src="1.png" class="side-image left">
+  <img src="2.png" class="side-image right">
+
+  <!-- Contenedor: card + contador -->
+  <div class="container">
+    <!-- Tarjeta -->
+    <div class="card" id="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <h2>Mi Promesa 💌</h2>
+          <p>Haz clic para abrir</p>
+        </div>
+        <div class="card-back">
+          <h3>Para Ti 🌸</h3>
+          <p>
+       Gracias por estar junto a mi
+    eres la niña que ilumina mi camino 
+te amo con todo mi corazon y alma eres 
+    mi mundo entero gracias por existir
+                     TE AMO Kate
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contador -->
+    <div class="counter">
+      <h4>Desde el 11 de Noviembre 2024</h4>
+      <div id="timer">
+        <span id="days">0</span> días
+        <span id="hours">00</span> :
+        <span id="minutes">00</span> :
+        <span id="seconds">00</span>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
+
+  <audio id="bg-music" src="promesa.mp3" loop></audio>
+
+  <script>
+    const heartContainer = document.getElementById('heartContainer');
+    const audio = document.getElementById('bg-music');
+
+    const points = 60;
+    const size = 300;
+    const coords = [];
+
+    for (let i = 0; i < points; i++) {
+      let t = Math.PI * 2 * (i / points);
+      let x = size * 16 * Math.pow(Math.sin(t), 3);
+      let y = -size * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+      coords.push([x, y]);
+    }
+
+    coords.forEach((coord, i) => {
+      const shape = document.createElement('div');
+      shape.classList.add('heart-shape');
+      shape.style.left = `calc(50% + ${coord[0]}px)`;
+      shape.style.top = `calc(50% + ${coord[1]}px)`;
+      heartContainer.appendChild(shape);
+
+      setTimeout(() => {
+        shape.style.opacity = 1;
+        shape.style.transform = 'rotate(45deg) scale(1)';
+      }, i * 40);
+    });
+
+    function createFloating() {
+      const el = document.createElement('div');
+      el.classList.add('floating');
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = '100%';
+      document.body.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, 10000);
+    }
+
+    setInterval(createFloating, 400);
+
+    const card = document.getElementById('card');
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+      audio.play();
+      startFireworks();
+
+      // ⚡ Restaurar fondo y limpiar fuegos artificiales después de 6 seg
+      setTimeout(() => {
+        document.body.style.background = 'linear-gradient(135deg, #ffe0ec, #ffc3d8)';
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 4000);
+    });
+
+    // Cronómetro
+    const startDate = new Date("November 11, 2024 00:00:00").getTime();
+    const daysSpan = document.getElementById("days");
+    const hoursSpan = document.getElementById("hours");
+    const minutesSpan = document.getElementById("minutes");
+    const secondsSpan = document.getElementById("seconds");
+
+    function updateCounter() {
+      const now = new Date().getTime();
+      const distance = now - startDate;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      daysSpan.innerHTML = days;
+      hoursSpan.innerHTML = ("0" + hours).slice(-2);
+      minutesSpan.innerHTML = ("0" + minutes).slice(-2);
+      secondsSpan.innerHTML = ("0" + seconds).slice(-2);
+    }
+
+    setInterval(updateCounter, 1000);
+    updateCounter();
+
+    // Fuegos artificiales
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function startFireworks() {
+      for (let i = 0; i < 5; i++) {
+        firework(Math.random() * canvas.width, Math.random() * canvas.height / 2);
+      }
+    }
+
+    function firework(x, y) {
+      const particles = [];
+      for (let i = 0; i < 30; i++) {
+        particles.push({
+          x, y,
+          angle: Math.random() * 2 * Math.PI,
+          speed: Math.random() * 5 + 2,
+          radius: Math.random() * 2 + 2,
+          alpha: 1
+        });
+      }
+      const interval = setInterval(() => {
+        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += Math.cos(p.angle) * p.speed;
+          p.y += Math.sin(p.angle) * p.speed;
+          p.alpha -= 0.02;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+          ctx.fillStyle = `rgba(${Math.random()*255},${Math.random()*255},${Math.random()*255},${p.alpha})`;
+          ctx.fill();
+        });
+        if (particles[0].alpha <= 0) clearInterval(interval);
+      }, 30);
+    }
+  </script>
+
+</body>
+</html>

@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Para Ti 🌸💖</title>
+  <title>Mi Promesa 💌</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       margin: 0;
@@ -14,13 +15,14 @@
       align-items: center;
       font-family: 'Segoe UI', 'Poppins', sans-serif;
       position: relative;
+      padding: 20px;
     }
 
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 100%;
+      width: 90%;
       max-width: 400px;
       z-index: 10;
     }
@@ -52,19 +54,12 @@
       border-radius: 50%;
     }
 
-    .heart-shape:before {
-      top: -15px;
-      left: 0;
-    }
-
-    .heart-shape:after {
-      left: -15px;
-      top: 0;
-    }
+    .heart-shape:before { top: -15px; left: 0; }
+    .heart-shape:after { left: -15px; top: 0; }
 
     .card {
       width: 100%;
-      height: 300px;
+      height: auto;
       perspective: 1200px;
       cursor: pointer;
       z-index: 10;
@@ -74,14 +69,12 @@
     .card-inner {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 300px;
       transform-style: preserve-3d;
       transition: transform 1s ease-in-out;
     }
 
-    .card.flipped .card-inner {
-      transform: rotateY(180deg);
-    }
+    .card.flipped .card-inner { transform: rotateY(180deg); }
 
     .card-front, .card-back {
       position: absolute;
@@ -157,15 +150,8 @@
       border-radius: 50%;
     }
 
-    .floating:before {
-      top: -10px;
-      left: 0;
-    }
-
-    .floating:after {
-      left: -10px;
-      top: 0;
-    }
+    .floating:before { top: -10px; left: 0; }
+    .floating:after { left: -10px; top: 0; }
 
     @keyframes float {
       0% {
@@ -182,20 +168,15 @@
       position: absolute;
       top: 50%;
       width: 250px;
-      border-radius: 20px;
+      border-radius: 15px;
       transform: translateY(-50%);
       box-shadow: 0 4px 20px rgba(0,0,0,0.2);
       object-fit: cover;
       z-index: 5;
     }
 
-    .side-image.left {
-      left: 30px;
-    }
-
-    .side-image.right {
-      right: 30px;
-    }
+    .side-image.left { left: 20px; }
+    .side-image.right { right: 20px; }
 
     .counter {
       margin-top: 20px;
@@ -227,6 +208,16 @@
       pointer-events: none;
       z-index: 3;
     }
+
+    /* RESPONSIVE ajustes */
+    @media (max-width: 768px) {
+      .side-image { display: none; }
+      .card-inner { height: 280px; }
+      .card-front h2 { font-size: 28px; }
+      .card-front p { font-size: 16px; }
+      .card-back h3 { font-size: 22px; }
+      .card-back p { font-size: 13px; }
+    }
   </style>
 </head>
 <body>
@@ -234,10 +225,10 @@
   <div class="heart-container" id="heartContainer"></div>
 
   <!-- Fotos laterales -->
-  <img src="1.png" class="side-image left">
-  <img src="2.png" class="side-image right">
+  <img src="1.png" class="side-image left" alt="Foto Izquierda">
+  <img src="2.png" class="side-image right" alt="Foto Derecha">
 
-  <!-- Contenedor: card + contador -->
+  <!-- Contenedor principal -->
   <div class="container">
     <!-- Tarjeta -->
     <div class="card" id="card">
@@ -249,11 +240,11 @@
         <div class="card-back">
           <h3>Para Ti 🌸</h3>
           <p>
-       Gracias por estar junto a mi
-    eres la niña que ilumina mi camino 
-te amo con todo mi corazon y alma eres 
-    mi mundo entero gracias por existir
-                     TE AMO Kate
+Yo te prometo que yo
+Seré quien cuide tus sueños
+Y cuando tú estés despierta
+El que te ayude a tenerlos
+...(tu letra aquí)
           </p>
         </div>
       </div>
@@ -323,11 +314,10 @@ te amo con todo mi corazon y alma eres
       audio.play();
       startFireworks();
 
-      // ⚡ Restaurar fondo y limpiar fuegos artificiales después de 6 seg
       setTimeout(() => {
         document.body.style.background = 'linear-gradient(135deg, #ffe0ec, #ffc3d8)';
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }, 4000);
+      }, 6000);
     });
 
     // Cronómetro

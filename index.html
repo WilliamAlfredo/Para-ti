@@ -36,7 +36,6 @@
       opacity: 0;
       transition: transform 0.8s ease, opacity 0.8s ease;
     }
-
     .heart-shape:before,
     .heart-shape:after {
       content: "";
@@ -46,10 +45,10 @@
       background: #ff69b4;
       border-radius: 50%;
     }
-
     .heart-shape:before { top: -15px; left: 0; }
-    .heart-shape:after { left: -15px; top: 0; }
+    .heart-shape:after  { left: -15px; top: 0; }
 
+    /* Imágenes laterales en escritorio */
     .side-image {
       position: absolute;
       top: 50%;
@@ -60,17 +59,16 @@
       object-fit: cover;
       z-index: 2;
     }
-
-    .side-image.left { left: 30px; }
+    .side-image.left  { left: 30px; }
     .side-image.right { right: 30px; }
 
+    /* Contenedor imágenes para móvil */
     .mobile-images {
       display: none;
       z-index: 2;
       gap: 10px;
       margin-bottom: 20px;
     }
-
     .mobile-images img {
       width: 40vw;
       max-width: 200px;
@@ -88,7 +86,6 @@
       cursor: pointer;
       z-index: 3;
     }
-
     .card-inner {
       position: relative;
       width: 100%;
@@ -96,12 +93,12 @@
       transform-style: preserve-3d;
       transition: transform 1s ease-in-out;
     }
-
     .card.flipped .card-inner {
       transform: rotateY(180deg);
     }
 
-    .card-front, .card-back {
+    .card-front,
+    .card-back {
       position: absolute;
       width: 100%;
       height: 100%;
@@ -121,14 +118,12 @@
       background: #fff;
       text-align: center;
     }
-
     .card-front h2 {
       font-family: 'Brush Script MT', cursive;
       font-size: clamp(24px, 6vw, 36px);
       color: #ff69b4;
       margin: 0;
     }
-
     .card-front p {
       margin-top: 10px;
       font-size: clamp(14px, 4vw, 20px);
@@ -141,21 +136,19 @@
       color: #fff;
       text-align: left;
     }
-
     .card-back h3 {
       font-family: 'Brush Script MT', cursive;
       font-size: clamp(20px, 5vw, 28px);
       margin: 0 0 10px 0;
     }
-
     .card-back p {
       font-size: clamp(14px, 4vw, 18px);
       line-height: 1.5;
-      margin: 0;
       white-space: pre-wrap;
       word-break: break-word;
       hyphens: auto;
       overflow-wrap: break-word;
+      margin: 0;
     }
 
     .counter {
@@ -169,13 +162,11 @@
       z-index: 3;
       font-size: clamp(14px, 4vw, 20px);
     }
-
     .counter h4 {
       margin: 0 0 5px 0;
       font-size: clamp(16px, 4.5vw, 22px);
       color: #b30059;
     }
-
     #timer {
       color: #b30059;
       font-weight: bold;
@@ -189,8 +180,9 @@
     }
 
     @media (max-width: 768px) {
-      .side-image { display: none; }
-      .mobile-images { display: flex; flex-wrap: wrap; justify-content: center; }
+      /* oculta laterales y muestra bloque móvil */
+      .side-image      { display: none; }
+      .mobile-images   { display: flex; flex-wrap: wrap; justify-content: center; }
     }
   </style>
 </head>
@@ -198,11 +190,11 @@
 
   <div class="heart-container" id="heartContainer"></div>
 
-  <!-- Escritorio -->
-  <img src="1.png" class="side-image left">
-  <img src="2.png" class="side-image right">
+  <!-- Escritorio: imágenes a los lados -->
+  <img src="1.png" class="side-image left"  alt="Foto 1">
+  <img src="2.png" class="side-image right" alt="Foto 2">
 
-  <!-- Móvil -->
+  <!-- Móvil: imágenes juntas arriba -->
   <div class="mobile-images">
     <img src="1.png" alt="Foto 1">
     <img src="2.png" alt="Foto 2">
@@ -216,11 +208,12 @@
         <p>Toca para abrir</p>
       </div>
       <div class="card-back">
-        <h3>Promesa 🌙</h3>
-          <p>Mi princesa hermosa, te amo
-gracias por todo
-eres la luz de mis días
-me encantas y siempre estaré aquí para ti 💖✨</p>
+        <h3>Para Ti 🌸</h3>
+        <p>
+Yo te prometo que yo  
+Seré quien cuide tus sueños...  
+(Tu letra completa aquí)
+        </p>
       </div>
     </div>
   </div>
@@ -229,9 +222,9 @@ me encantas y siempre estaré aquí para ti 💖✨</p>
   <div class="counter">
     <h4>Desde el 11 de Noviembre 2024</h4>
     <div id="timer">
-      <span id="days">0</span> días
-      <span id="hours">00</span> :
-      <span id="minutes">00</span> :
+      <span id="days">0</span> días  
+      <span id="hours">00</span> :  
+      <span id="minutes">00</span> :  
       <span id="seconds">00</span>
     </div>
   </div>
@@ -240,110 +233,99 @@ me encantas y siempre estaré aquí para ti 💖✨</p>
   <audio id="bg-music" src="promesa.mp3" loop></audio>
 
   <script>
+    // Corazones grandes
     const heartContainer = document.getElementById('heartContainer');
     const audio = document.getElementById('bg-music');
-
     const points = 60, size = 300, coords = [];
-    for (let i = 0; i < points; i++) {
-      let t = Math.PI * 2 * (i / points);
-      let x = size * 16 * Math.pow(Math.sin(t), 3);
-      let y = -size * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-      coords.push([x, y]);
+    for (let i=0; i<points; i++){
+      let t = Math.PI*2*(i/points);
+      coords.push([
+        size*16*Math.pow(Math.sin(t),3),
+        -size*(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))
+      ]);
     }
-    coords.forEach((coord, i) => {
+    coords.forEach((c,i)=>{
       const shape = document.createElement('div');
       shape.classList.add('heart-shape');
-      shape.style.left = `calc(50% + ${coord[0]}px)`;
-      shape.style.top = `calc(50% + ${coord[1]}px)`;
+      shape.style.left = `calc(50% + ${c[0]}px)`;
+      shape.style.top  = `calc(50% + ${c[1]}px)`;
       heartContainer.appendChild(shape);
-      setTimeout(() => {
-        shape.style.opacity = 1;
-        shape.style.transform = 'rotate(45deg) scale(1)';
-      }, i * 40);
+      setTimeout(()=>{ shape.style.opacity=1; shape.style.transform='rotate(45deg) scale(1)'; }, i*40);
     });
 
-    function createFloating() {
+    // Corazones flotantes
+    function createFloating(){
       const el = document.createElement('div');
-      el.classList.add('floating');
-      el.style.left = Math.random() * 100 + 'vw';
+      el.className='floating';
+      el.style.left = Math.random()*100+'vw';
       el.style.top = '100%';
       document.body.appendChild(el);
-      setTimeout(() => el.remove(), 10000);
+      setTimeout(()=>el.remove(),10000);
     }
+    setInterval(createFloating,400);
 
-    setInterval(createFloating, 400);
-
+    // Flip + música + fuegos artificiales
     const card = document.getElementById('card');
-    card.addEventListener('click', () => {
+    card.addEventListener('click',()=>{ 
       card.classList.toggle('flipped');
       audio.play();
       startFireworks();
     });
 
+    // Cronómetro
     const startDate = new Date("November 11, 2024 00:00:00").getTime();
-    const daysSpan = document.getElementById("days");
-    const hoursSpan = document.getElementById("hours");
-    const minutesSpan = document.getElementById("minutes");
-    const secondsSpan = document.getElementById("seconds");
-
-    function updateCounter() {
-      const now = new Date().getTime();
-      const distance = now - startDate;
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      daysSpan.innerHTML = days;
-      hoursSpan.innerHTML = ("0" + hours).slice(-2);
-      minutesSpan.innerHTML = ("0" + minutes).slice(-2);
-      secondsSpan.innerHTML = ("0" + seconds).slice(-2);
+    const daysSpan   = document.getElementById("days"),
+          hoursSpan  = document.getElementById("hours"),
+          minsSpan   = document.getElementById("minutes"),
+          secsSpan   = document.getElementById("seconds");
+    function updateCounter(){
+      const now = Date.now(),
+            d   = now - startDate;
+      daysSpan.innerText   = Math.floor(d/(1000*60*60*24));
+      hoursSpan.innerText  = String(Math.floor((d%(1000*60*60*24))/(1000*60*60))).padStart(2,'0');
+      minsSpan.innerText   = String(Math.floor((d%(1000*60*60))/(1000*60))).padStart(2,'0');
+      secsSpan.innerText   = String(Math.floor((d%(1000*60))/1000)).padStart(2,'0');
     }
-
-    setInterval(updateCounter, 1000);
+    setInterval(updateCounter,1000);
     updateCounter();
 
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
+    // Fuegos artificiales
+    const canvas = document.getElementById('canvas'),
+          ctx    = canvas.getContext('2d');
+    function resizeCanvas(){
+      canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
-    });
-
-    function startFireworks() {
-      for (let i = 0; i < 5; i++) firework(Math.random() * canvas.width, Math.random() * canvas.height / 2);
     }
-
-    function firework(x, y) {
-      const particles = [];
-      for (let i = 0; i < 30; i++) {
-        particles.push({
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function startFireworks(){
+      for(let i=0;i<5;i++) firework(Math.random()*canvas.width,Math.random()*canvas.height/2);
+    }
+    function firework(x,y){
+      const particles = Array.from({length:30},()=>{
+        return {
           x, y,
-          angle: Math.random() * 2 * Math.PI,
-          speed: Math.random() * 5 + 2,
-          radius: Math.random() * 2 + 2,
+          angle: Math.random()*2*Math.PI,
+          speed: Math.random()*5+2,
+          radius: Math.random()*2+2,
           alpha: 1
-        });
-      }
-      const interval = setInterval(() => {
-        ctx.fillStyle = 'rgba(0,0,0,0.1)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-          p.x += Math.cos(p.angle) * p.speed;
-          p.y += Math.sin(p.angle) * p.speed;
-          p.alpha -= 0.02;
+        };
+      });
+      const iv = setInterval(()=>{
+        ctx.fillStyle='rgba(0,0,0,0.1)';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        particles.forEach(p=>{
+          p.x += Math.cos(p.angle)*p.speed;
+          p.y += Math.sin(p.angle)*p.speed;
+          p.alpha-=0.02;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
-          ctx.fillStyle = `rgba(${Math.random()*255},${Math.random()*255},${Math.random()*255},${p.alpha})`;
+          ctx.arc(p.x,p.y,p.radius,0,2*Math.PI);
+          ctx.fillStyle=`rgba(${Math.random()*255},${Math.random()*255},${Math.random()*255},${p.alpha})`;
           ctx.fill();
         });
-        if (particles[0].alpha <= 0) clearInterval(interval);
-      }, 30);
+        if(particles[0].alpha<=0) clearInterval(iv);
+      },30);
     }
   </script>
-
 </body>
 </html>

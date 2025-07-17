@@ -2,36 +2,29 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Mi Promesa 💌</title>
+  <title>Para Ti 🌸💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       background: linear-gradient(135deg, #ffe0ec, #ffc3d8);
       overflow: hidden;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       font-family: 'Segoe UI', 'Poppins', sans-serif;
       position: relative;
       padding: 20px;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 90%;
-      max-width: 400px;
-      z-index: 10;
+      box-sizing: border-box;
     }
 
     .heart-container {
       position: absolute;
       width: 700px;
       height: 700px;
-      z-index: 2;
+      z-index: 1;
     }
 
     .heart-shape {
@@ -57,24 +50,56 @@
     .heart-shape:before { top: -15px; left: 0; }
     .heart-shape:after { left: -15px; top: 0; }
 
+    .side-image {
+      position: absolute;
+      top: 50%;
+      width: 120px;
+      border-radius: 20px;
+      transform: translateY(-50%);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      object-fit: cover;
+      z-index: 2;
+    }
+
+    .side-image.left { left: 30px; }
+    .side-image.right { right: 30px; }
+
+    .mobile-images {
+      display: none;
+      z-index: 2;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .mobile-images img {
+      width: 40vw;
+      max-width: 200px;
+      border-radius: 15px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
     .card {
-      width: 100%;
-      height: auto;
+      position: relative;
+      width: 90vw;
+      max-width: 400px;
+      aspect-ratio: 4/3;
       perspective: 1200px;
       cursor: pointer;
-      z-index: 10;
-      position: relative;
+      z-index: 3;
     }
 
     .card-inner {
       position: relative;
       width: 100%;
-      height: 300px;
+      height: 100%;
       transform-style: preserve-3d;
       transition: transform 1s ease-in-out;
     }
 
-    .card.flipped .card-inner { transform: rotateY(180deg); }
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
 
     .card-front, .card-back {
       position: absolute;
@@ -86,9 +111,10 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 30px;
+      padding: 20px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       box-sizing: border-box;
+      overflow: hidden;
     }
 
     .card-front {
@@ -98,14 +124,14 @@
 
     .card-front h2 {
       font-family: 'Brush Script MT', cursive;
-      font-size: 34px;
+      font-size: clamp(24px, 6vw, 36px);
       color: #ff69b4;
       margin: 0;
     }
 
     .card-front p {
       margin-top: 10px;
-      font-size: 18px;
+      font-size: clamp(14px, 4vw, 20px);
       color: #555;
     }
 
@@ -113,91 +139,44 @@
       background: linear-gradient(135deg, #ffb6c1, #ffe4e1);
       transform: rotateY(180deg);
       color: #fff;
-      overflow-y: auto;
       text-align: left;
     }
 
     .card-back h3 {
       font-family: 'Brush Script MT', cursive;
-      font-size: 26px;
+      font-size: clamp(20px, 5vw, 28px);
       margin: 0 0 10px 0;
     }
 
     .card-back p {
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: clamp(14px, 4vw, 18px);
+      line-height: 1.5;
       margin: 0;
       white-space: pre-wrap;
+      word-break: break-word;
+      hyphens: auto;
+      overflow-wrap: break-word;
     }
-
-    .floating {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: #ff69b4;
-      transform: rotate(45deg);
-      animation: float 10s linear forwards;
-      z-index: 1;
-    }
-
-    .floating:before,
-    .floating:after {
-      content: "";
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: #ff69b4;
-      border-radius: 50%;
-    }
-
-    .floating:before { top: -10px; left: 0; }
-    .floating:after { left: -10px; top: 0; }
-
-    @keyframes float {
-      0% {
-        transform: translateY(0) rotate(45deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-600px) rotate(45deg);
-        opacity: 0;
-      }
-    }
-
-    .side-image {
-      position: absolute;
-      top: 50%;
-      width: 250px;
-      border-radius: 15px;
-      transform: translateY(-50%);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      object-fit: cover;
-      z-index: 5;
-    }
-
-    .side-image.left { left: 20px; }
-    .side-image.right { right: 20px; }
 
     .counter {
       margin-top: 20px;
       text-align: center;
-      background: rgba(255, 182, 193, 0.8);
-      padding: 15px 25px;
+      background: rgba(255, 182, 193, 0.85);
+      padding: 10px 20px;
       border-radius: 15px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       font-family: 'Poppins', sans-serif;
-      width: 100%;
-      box-sizing: border-box;
+      z-index: 3;
+      font-size: clamp(14px, 4vw, 20px);
     }
 
     .counter h4 {
-      margin: 0 0 8px 0;
-      font-size: 18px;
+      margin: 0 0 5px 0;
+      font-size: clamp(16px, 4.5vw, 22px);
       color: #b30059;
     }
 
     #timer {
-      font-size: 18px;
       color: #b30059;
       font-weight: bold;
     }
@@ -206,17 +185,12 @@
       position: absolute;
       top: 0; left: 0;
       pointer-events: none;
-      z-index: 3;
+      z-index: 1;
     }
 
-    /* RESPONSIVE ajustes */
     @media (max-width: 768px) {
       .side-image { display: none; }
-      .card-inner { height: 280px; }
-      .card-front h2 { font-size: 28px; }
-      .card-front p { font-size: 16px; }
-      .card-back h3 { font-size: 22px; }
-      .card-back p { font-size: 13px; }
+      .mobile-images { display: flex; flex-wrap: wrap; justify-content: center; }
     }
   </style>
 </head>
@@ -224,69 +198,64 @@
 
   <div class="heart-container" id="heartContainer"></div>
 
-  <!-- Fotos laterales -->
-  <img src="1.png" class="side-image left" alt="Foto Izquierda">
-  <img src="2.png" class="side-image right" alt="Foto Derecha">
+  <!-- Escritorio -->
+  <img src="1.png" class="side-image left">
+  <img src="2.png" class="side-image right">
 
-  <!-- Contenedor principal -->
-  <div class="container">
-    <!-- Tarjeta -->
-    <div class="card" id="card">
-      <div class="card-inner">
-        <div class="card-front">
-          <h2>Mi Promesa 💌</h2>
-          <p>Haz clic para abrir</p>
-        </div>
-        <div class="card-back">
-          <h3>Para Ti 🌸</h3>
-          <p>
-gracias por todo mi princesa
- te amo mi amor me fascinas
-quiero estar contigo por la eternidad
-        mi Kate hermosa
-          </p>
-        </div>
+  <!-- Móvil -->
+  <div class="mobile-images">
+    <img src="1.png" alt="Foto 1">
+    <img src="2.png" alt="Foto 2">
+  </div>
+
+  <!-- Tarjeta -->
+  <div class="card" id="card">
+    <div class="card-inner">
+      <div class="card-front">
+        <h2>Mi Promesa 💌</h2>
+        <p>Toca para abrir</p>
       </div>
-    </div>
-
-    <!-- Contador -->
-    <div class="counter">
-      <h4>Desde el 11 de Noviembre 2024</h4>
-      <div id="timer">
-        <span id="days">0</span> días
-        <span id="hours">00</span> :
-        <span id="minutes">00</span> :
-        <span id="seconds">00</span>
+      <div class="card-back">
+        <h3>Promesa 🌙</h3>
+          <p>Mi princesa hermosa, te amo
+gracias por todo
+eres la luz de mis días
+me encantas y siempre estaré aquí para ti 💖✨</p>
       </div>
     </div>
   </div>
 
-  <canvas id="canvas"></canvas>
+  <!-- Contador -->
+  <div class="counter">
+    <h4>Desde el 11 de Noviembre 2024</h4>
+    <div id="timer">
+      <span id="days">0</span> días
+      <span id="hours">00</span> :
+      <span id="minutes">00</span> :
+      <span id="seconds">00</span>
+    </div>
+  </div>
 
+  <canvas id="canvas"></canvas>
   <audio id="bg-music" src="promesa.mp3" loop></audio>
 
   <script>
     const heartContainer = document.getElementById('heartContainer');
     const audio = document.getElementById('bg-music');
 
-    const points = 60;
-    const size = 300;
-    const coords = [];
-
+    const points = 60, size = 300, coords = [];
     for (let i = 0; i < points; i++) {
       let t = Math.PI * 2 * (i / points);
       let x = size * 16 * Math.pow(Math.sin(t), 3);
       let y = -size * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
       coords.push([x, y]);
     }
-
     coords.forEach((coord, i) => {
       const shape = document.createElement('div');
       shape.classList.add('heart-shape');
       shape.style.left = `calc(50% + ${coord[0]}px)`;
       shape.style.top = `calc(50% + ${coord[1]}px)`;
       heartContainer.appendChild(shape);
-
       setTimeout(() => {
         shape.style.opacity = 1;
         shape.style.transform = 'rotate(45deg) scale(1)';
@@ -299,10 +268,7 @@ quiero estar contigo por la eternidad
       el.style.left = Math.random() * 100 + 'vw';
       el.style.top = '100%';
       document.body.appendChild(el);
-
-      setTimeout(() => {
-        el.remove();
-      }, 10000);
+      setTimeout(() => el.remove(), 10000);
     }
 
     setInterval(createFloating, 400);
@@ -312,14 +278,8 @@ quiero estar contigo por la eternidad
       card.classList.toggle('flipped');
       audio.play();
       startFireworks();
-
-      setTimeout(() => {
-        document.body.style.background = 'linear-gradient(135deg, #ffe0ec, #ffc3d8)';
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }, 6000);
     });
 
-    // Cronómetro
     const startDate = new Date("November 11, 2024 00:00:00").getTime();
     const daysSpan = document.getElementById("days");
     const hoursSpan = document.getElementById("hours");
@@ -329,7 +289,6 @@ quiero estar contigo por la eternidad
     function updateCounter() {
       const now = new Date().getTime();
       const distance = now - startDate;
-
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -344,16 +303,18 @@ quiero estar contigo por la eternidad
     setInterval(updateCounter, 1000);
     updateCounter();
 
-    // Fuegos artificiales
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
     function startFireworks() {
-      for (let i = 0; i < 5; i++) {
-        firework(Math.random() * canvas.width, Math.random() * canvas.height / 2);
-      }
+      for (let i = 0; i < 5; i++) firework(Math.random() * canvas.width, Math.random() * canvas.height / 2);
     }
 
     function firework(x, y) {
